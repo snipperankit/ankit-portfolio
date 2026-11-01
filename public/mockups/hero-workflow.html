@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ankit / Character Study 08 / Mockup Only</title>
+  <style>
+    :root { color-scheme: light; font-family: Consolas, "Courier New", monospace; color: #303936; background: #e9eeec; }
+    * { box-sizing: border-box; letter-spacing: 0; }
+    body { margin: 0; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible { outline: 2px solid #217d65; outline-offset: 3px; }
+    .toolbar { min-height: 62px; display: flex; align-items: center; flex-wrap: wrap; gap: 14px; padding: 12px 22px; background: #fafcfb; border-bottom: 1px solid #cdd7d2; }
+    .brand { font-weight: 700; font-size: 13px; }
+    .version { font-size: 11px; color: #69776f; }
+    .toolbar .modes { margin-left: auto; }
+    .modes { display: flex; gap: 3px; padding: 3px; border: 1px solid #d4dcd8; border-radius: 5px; }
+    .modes button { background: transparent; border: 0; padding: 7px 11px; font-size: 11px; color: #58675f; border-radius: 3px; }
+    .modes button[aria-pressed="true"] { background: #dcebe3; color: #155e46; }
+    .workspace { display: grid; grid-template-columns: 212px minmax(0, 1fr); min-height: calc(100vh - 62px); }
+    aside { background: #f8faf9; padding: 25px 19px; border-right: 1px solid #cdd7d2; }
+    aside h1 { font-size: 17px; line-height: 1.5; margin: 8px 0 10px; }
+    aside p { font-size: 11px; line-height: 1.8; color: #627369; }
+    .eyebrow { font-size: 10px; color: #69776f; text-transform: uppercase; }
+    .layers { list-style: none; padding: 18px 0; margin: 20px 0; border-block: 1px solid #dce3df; }
+    .layers li { font-size: 11px; padding: 9px 0; display: flex; align-items: center; gap: 9px; }
+    .swatch { width: 9px; height: 9px; border-radius: 2px; background: var(--color); }
+    .control { display: flex; align-items: center; gap: 9px; font-size: 11px; padding: 10px 0; }
+    input { accent-color: #217d65; }
+    main { min-width: 0; padding: 24px; background-image: radial-gradient(#bfcac4 .7px, transparent .7px); background-size: 18px 18px; }
+    .frame-title { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; margin: 0 auto 13px; font-size: 11px; max-width: 1440px; }
+    .frame-title .modes { margin-left: auto; background: #f5f8f6; }
+    .artboard { position: relative; margin: auto; background: #0e0e0d; outline: 1px solid #aabbb2; box-shadow: 0 16px 38px #263f3212; }
+    iframe { position: absolute; inset: 0; border: 0; transform-origin: top left; background: #0e0e0d; }
+    .loading { position: absolute; inset: 0; display: grid; align-content: center; text-align: center; padding: 30px; color: #d7dfd9; background: #0e0e0d; font-size: 13px; line-height: 1.8; }
+    .loading[hidden] { display: none; }
+    .note { max-width: 1440px; margin: 16px auto 0; font-size: 11px; line-height: 1.8; color: #5b6e62; }
+    @media (max-width: 850px) {
+      .workspace { grid-template-columns: 1fr; }
+      aside { border-right: 0; border-bottom: 1px solid #cdd7d2; padding: 13px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+      aside h1 { font-size: 14px; margin: 0; }
+      aside p, .layers, aside > .eyebrow { display: none; }
+      main { padding: 18px 12px; }
+      .toolbar { padding: 10px 14px; }
+      .version { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="toolbar">
+    <span class="brand">ANKIT / DESIGN STUDIO</span>
+    <span class="version">Character Study 08 / Senior engineer walk-in</span>
+    <div class="modes" aria-label="Preview theme">
+      <button type="button" data-theme="dark" aria-pressed="true">Dark</button>
+      <button type="button" data-theme="light" aria-pressed="false">Light</button>
+    </div>
+  </header>
+  <div class="workspace">
+    <aside>
+      <div class="eyebrow">Design proposal</div>
+      <h1>Senior engineer, centre-door entrance.</h1>
+      <p>The scene opens on a door at the centre. It swings open, a senior engineer walks through, crosses the room while the studio sketches in, then bends and settles into the chair with a seamless crossfade.</p>
+      <ul class="layers">
+        <li><span class="swatch" style="--color:#0e0e0d"></span>Original black</li>
+        <li><span class="swatch" style="--color:#8fd98f"></span>Original green</li>
+        <li><span class="swatch" style="--color:#6fd2c5"></span>Screen cyan</li>
+        <li><span class="swatch" style="--color:#e2ba5b"></span>Warm bulb</li>
+      </ul>
+      <label class="control"><input id="background-toggle" type="checkbox" checked>Systems board</label>
+      <label class="control"><input id="motion-toggle" type="checkbox" checked>Signal animation</label>
+      <p>This character and entrance are mockup-only. The main website keeps its existing character until you approve a final design.</p>
+    </aside>
+    <main>
+      <div class="frame-title">
+        <span id="frame-label">08 / Desktop / 1440 x 900</span>
+        <div class="modes" aria-label="Artboard size">
+          <button type="button" data-viewport="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-viewport="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+      <div class="artboard" id="artboard">
+        <iframe id="preview" title="Mockup-only senior engineer who enters through a centre door and sits at the desk" src="/?heroPreview=systems&amp;characterPreview=walk-in&amp;revision=character-08" sandbox="allow-scripts allow-same-origin"></iframe>
+        <div class="loading" id="loading" role="status">Loading the scene...</div>
+      </div>
+      <p class="note">Character Study 08: the screen opens on a centred door; a senior engineer — black swept hair with silver temples, trimmed black beard and moustache, cheekbones and brow lines — walks through, the room draws itself around him, the door closes and dissolves away, and he sinks into the chair as the seated pose crossfades in. Preview only; the normal website character is unchanged.</p>
+    </main>
+  </div>
+  <script>
+    const preview = document.getElementById("preview");
+    const artboard = document.getElementById("artboard");
+    const loading = document.getElementById("loading");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    let viewport = "desktop";
+    let theme = "dark";
+    let observer;
+    let installedDocument;
+    let installedCanvas;
+    document.getElementById("motion-toggle").checked = !reducedMotion.matches;
+
+    function applySettings() {
+      const frameDocument = preview.contentDocument;
+      const frameWindow = preview.contentWindow;
+      if (!frameDocument || !frameWindow) return;
+      frameDocument.documentElement.dataset.theme = theme;
+      frameWindow.dispatchEvent(new frameWindow.CustomEvent("desk-workflow-preview", {
+        detail: {
+          visible: document.getElementById("background-toggle").checked,
+          moving: document.getElementById("motion-toggle").checked && !reducedMotion.matches,
+        },
+      }));
+    }
+
+    function installPreview() {
+      const frameDocument = preview.contentDocument;
+      if (!frameDocument?.querySelector(".desk-scene")) return;
+      const canvas = frameDocument.querySelector(".desk-canvas canvas");
+      if (canvas !== installedCanvas) {
+        installedCanvas = canvas;
+        applySettings();
+      }
+      loading.hidden = true;
+    }
+
+    function connectPreview() {
+      const frameDocument = preview.contentDocument;
+      if (!frameDocument?.body || frameDocument === installedDocument) return;
+      installedDocument = frameDocument;
+      installedCanvas = undefined;
+      observer?.disconnect();
+      const style = frameDocument.createElement("style");
+      style.textContent = ".hero .desk-scene{max-width:1000px;height:480px;min-height:320px}@media(max-width:640px){.hero .desk-scene{height:320px;min-height:0}}";
+      frameDocument.head.appendChild(style);
+      observer = new MutationObserver(installPreview);
+      observer.observe(frameDocument.body, { childList: true, subtree: true });
+      applySettings();
+      installPreview();
+    }
+
+    function fitArtboard() {
+      const width = viewport === "mobile" ? 390 : 1440;
+      const height = viewport === "mobile" ? 844 : 900;
+      const scale = Math.min(1, document.querySelector(".frame-title").getBoundingClientRect().width / width);
+      preview.style.width = `${width}px`;
+      preview.style.height = `${height}px`;
+      preview.style.transform = `scale(${scale})`;
+      artboard.style.width = `${width * scale}px`;
+      artboard.style.height = `${height * scale}px`;
+      document.getElementById("frame-label").textContent = `06 / ${viewport === "mobile" ? "Mobile" : "Desktop"} / ${width} x ${height}`;
+    }
+
+    document.querySelectorAll("[data-theme]").forEach((button) => button.addEventListener("click", () => {
+      theme = button.dataset.theme;
+      document.querySelectorAll("[data-theme]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
+      applySettings();
+    }));
+    document.querySelectorAll("[data-viewport]").forEach((button) => button.addEventListener("click", () => {
+      viewport = button.dataset.viewport;
+      document.querySelectorAll("[data-viewport]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
+      fitArtboard();
+    }));
+    document.getElementById("background-toggle").addEventListener("change", applySettings);
+    document.getElementById("motion-toggle").addEventListener("change", applySettings);
+    reducedMotion.addEventListener("change", applySettings);
+    preview.addEventListener("load", connectPreview);
+    new ResizeObserver(fitArtboard).observe(document.querySelector(".frame-title"));
+    fitArtboard();
+    if (preview.contentDocument?.readyState === "complete") connectPreview();
+    setTimeout(() => {
+      if (!loading.hidden) loading.textContent = "The scene is not ready. Open /mockups/hero-workflow.html from the running portfolio server, then reload.";
+    }, 20000);
+  </script>
+</body>
+</html>

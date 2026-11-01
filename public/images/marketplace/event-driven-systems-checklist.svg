@@ -1,0 +1,35 @@
+<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Event-Driven Systems Checklist">
+  <defs>
+    <radialGradient id="evt-bg" cx="30%" cy="20%" r="90%">
+      <stop offset="0%" stop-color="#132419" />
+      <stop offset="100%" stop-color="#070b08" />
+    </radialGradient>
+    <linearGradient id="evt-green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a6f2b0" />
+      <stop offset="100%" stop-color="#3fae5a" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="220" fill="url(#evt-bg)" />
+  <text x="34" y="42" fill="url(#evt-green)" font-family="monospace" font-size="17" font-weight="700">Event-Driven Checklist</text>
+
+  <g fill="none" stroke="url(#evt-green)" stroke-width="1.6">
+    <rect x="60" y="66" width="280" height="26" rx="4" />
+    <rect x="60" y="100" width="280" height="26" rx="4" />
+    <rect x="60" y="134" width="280" height="26" rx="4" />
+  </g>
+  <g fill="#a6f2b0">
+    <path d="M72,79 l4,5 l8,-10" stroke="#a6f2b0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M72,113 l4,5 l8,-10" stroke="#a6f2b0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <g stroke="#4d8a5b" stroke-width="1.4">
+    <path d="M72,147 l4,5 l8,-10" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".5" />
+  </g>
+  <g stroke="#bff2c8" stroke-width="1.4" stroke-linecap="round" opacity=".8">
+    <line x1="96" y1="79" x2="230" y2="79" />
+    <line x1="96" y1="113" x2="210" y2="113" />
+    <line x1="96" y1="147" x2="220" y2="147" opacity=".5" />
+  </g>
+  <text x="200" y="208" fill="#3f7a4c" font-family="monospace" font-size="10" text-anchor="middle" letter-spacing="1">
+    topics · retries · delivery guarantees · operations
+  </text>
+</svg>

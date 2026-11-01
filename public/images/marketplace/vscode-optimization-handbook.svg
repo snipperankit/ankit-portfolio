@@ -1,0 +1,39 @@
+<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VS Code Optimization Handbook">
+  <defs>
+    <radialGradient id="vsc-bg" cx="30%" cy="20%" r="90%">
+      <stop offset="0%" stop-color="#152233" />
+      <stop offset="100%" stop-color="#070c14" />
+    </radialGradient>
+    <linearGradient id="vsc-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7fc4ff" />
+      <stop offset="100%" stop-color="#2f7fd6" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="220" fill="url(#vsc-bg)" />
+  <g stroke="#1d3350" stroke-width="1" opacity=".55">
+    <path d="M0 30 H80 L96 46 H180" fill="none" />
+    <path d="M400 170 H320 L306 186 H240" fill="none" />
+  </g>
+  <text x="34" y="42" fill="url(#vsc-blue)" font-family="monospace" font-size="19" font-weight="700">VS Code Handbook</text>
+
+  <g transform="translate(60,70)" fill="none" stroke="url(#vsc-blue)" stroke-width="1.6">
+    <rect x="0" y="0" width="280" height="120" rx="6" />
+    <line x1="0" y1="22" x2="280" y2="22" />
+    <line x1="70" y1="22" x2="70" y2="120" />
+    <circle cx="14" cy="11" r="3" fill="#7fc4ff" stroke="none" />
+    <circle cx="26" cy="11" r="3" fill="#7fc4ff" stroke="none" opacity=".6" />
+    <circle cx="38" cy="11" r="3" fill="#7fc4ff" stroke="none" opacity=".35" />
+  </g>
+  <g stroke="#bfe0ff" stroke-width="1.4" stroke-linecap="round" opacity=".8">
+    <line x1="76" y1="40" x2="120" y2="40" />
+    <line x1="76" y1="52" x2="112" y2="52" />
+    <line x1="76" y1="64" x2="124" y2="64" />
+    <line x1="150" y1="90" x2="260" y2="90" opacity=".5" />
+    <line x1="150" y1="102" x2="240" y2="102" opacity=".5" />
+    <line x1="150" y1="114" x2="252" y2="114" opacity=".5" />
+    <polyline points="145,42 152,50 145,58" fill="none" />
+  </g>
+  <text x="200" y="208" fill="#3f6a95" font-family="monospace" font-size="10" text-anchor="middle" letter-spacing="1">
+    editor setup · extensions · debugging · workflow
+  </text>
+</svg>
