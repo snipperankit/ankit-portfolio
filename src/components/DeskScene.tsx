@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { ArrowUp } from "lucide-react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { createDeskWorkflow } from "./DeskWorkflow";
+import { useLanguage } from "./LanguageProvider";
 
 type Point = [number, number, number];
 
@@ -867,6 +869,7 @@ function buildDesk(previewWorkflow: boolean, previewCharacter = false) {
 }
 
 export default function DeskScene({ onSeated }: { onSeated?: () => void } = {}) {
+  const { translate } = useLanguage();
   const hostRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const seatedRef = useRef(false);
@@ -899,8 +902,9 @@ export default function DeskScene({ onSeated }: { onSeated?: () => void } = {}) 
     controls.target.copy(target);
     controls.enablePan = false;
     controls.enableZoom = false;
-    controls.enableRotate = !window.matchMedia("(pointer: coarse)").matches;
-    renderer.domElement.style.touchAction = "pan-y";
+    controls.enableRotate = true;
+    controls.touches.ONE = THREE.TOUCH.ROTATE;
+    renderer.domElement.style.touchAction = "none";
     // Wide vertical orbit range so dragging up/down can swing all the way to a top-down
     // and a bottom-up view of the desk, not just a shallow tilt around eye level.
     controls.minPolarAngle = 0.05;
@@ -945,6 +949,10 @@ export default function DeskScene({ onSeated }: { onSeated?: () => void } = {}) 
     // sketch reveal runs on its own faster clock so the caricature draws in quickly without speeding up ambient breathing/gestures
     let genElapsed = 0;
     const GEN_SPEED = 1.8;
+    const GENERATION_SPIN_DURATION = 1.8;
+    const GENERATION_SPIN_ANGLE = Math.PI * 6;
+    let generationSpinStart: number | null = null;
+    let generationSpinAngle = 0;
     let previous = 0;
     let pointer = 0;
     let scroll = 0;
@@ -967,6 +975,7 @@ export default function DeskScene({ onSeated }: { onSeated?: () => void } = {}) 
       const { width, height } = hostBounds;
       if (!width || !height) return;
       camera.aspect = width / height;
+      camera.setViewOffset(width, height, width * (width < 500 ? 0.03 : 0.06), 0, width, height);
       camera.updateProjectionMatrix();
       // floor raised from 9.5 so the chair's wheel base (the nearest, lowest point to camera)
       // keeps clearance from the bottom edge through rotation and the idle sway
@@ -1044,8 +1053,17 @@ export default function DeskScene({ onSeated }: { onSeated?: () => void } = {}) 
       desk.head.rotation.y = -0.12 + gesture.glance;
       desk.torso.scale.y = 1.25 + gesture.breathe;
       desk.screen.emissiveIntensity = 0.12 + gesture.breathe;
-      desk.root.rotation.y = motion.matches ? 0 : THREE.MathUtils.damp(desk.root.rotation.y, gesture.turn + pointer * 0.6 + scroll * 0.06, 3, delta);
-      if (desk.generate(motion.matches ? 6 : genElapsed, motion.matches ? 6 : elapsed) && !seatedRef.current) {
+      const generationComplete = desk.generate(motion.matches ? 6 : genElapsed, motion.matches ? 6 : elapsed);
+      if (generationComplete && !motion.matches && generationSpinStart === null) generationSpinStart = elapsed;
+      if (generationSpinStart !== null) {
+        const progress = Math.min((elapsed - generationSpinStart) / GENERATION_SPIN_DURATION, 1);
+        generationSpinAngle = GENERATION_SPIN_ANGLE * (1 - (1 - progress) ** 3);
+      }
+      const idleTurn = gesture.turn + pointer * 0.6 + scroll * 0.06;
+      desk.root.rotation.y = motion.matches
+        ? 0
+        : THREE.MathUtils.damp(desk.root.rotation.y - generationSpinAngle, idleTurn, 3, delta) + generationSpinAngle;
+      if (generationComplete && !seatedRef.current) {
         seatedRef.current = true;
         onSeatedRef.current?.();
       }
@@ -1099,10 +1117,15 @@ export default function DeskScene({ onSeated }: { onSeated?: () => void } = {}) 
   }, []);
 
   return (
-    <div className="desk-scene" role="img" aria-label="A pencil-sketch scene of a senior engineer with black swept hair, a trimmed beard and glasses, drawing itself in at a desk, with a digital systems board behind the monitors, a growing rose and a warm suspended bulb">
-      <div className="desk-canvas" ref={hostRef}>
+    <div className="desk-scene">
+      <div className="desk-canvas" ref={hostRef} role="img" aria-label="A pencil-sketch scene of a senior engineer with black swept hair, a trimmed beard and glasses, drawing itself in at a desk, with a digital systems board behind the monitors, a growing rose and a warm suspended bulb">
         <video ref={videoRef} className="desk-fallback hero-video" src="/videos/hero-avatar.mp4" muted playsInline preload="auto" aria-label="Engineer at a desk" onLoadedData={() => { if (videoRef.current) videoRef.current.currentTime = 7.3; }} />
       </div>
+      <p className="desk-tease">
+        <ArrowUp size={20} aria-hidden="true" />
+        <span className="desk-tease-mouse">{translate("Whatever you do, don't drag the desk.")}</span>
+        <span className="desk-tease-touch">{translate("Whatever you do, don't swipe the desk.")}</span>
+      </p>
     </div>
   );
 }

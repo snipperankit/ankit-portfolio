@@ -17,6 +17,21 @@ export interface Project {
   contribution: string;
   architecture: string;
   outcome: string;
+  category: "genai" | "fullstack" | "distributed";
+  diagram: {
+    client: ArchitectureNode;
+    connection: string;
+    direction: "request" | "response" | "both";
+    service: ArchitectureNode;
+    dependencies: (ArchitectureNode & { connection: string })[];
+    note?: string;
+  };
+}
+
+export interface ArchitectureNode {
+  title: string;
+  detail: string;
+  kind: "frontend" | "backend" | "database" | "ai" | "messaging" | "external" | "library";
 }
 
 export interface ConsultArea {
@@ -228,6 +243,15 @@ Referenzen auf Anfrage verfügbar.`;
 // kept for the ASK-ANKIT persona prompt, which reasons in English
 export const CV = CV_EN;
 
+export const SMARTRECO = {
+  title: "SmartReco Build Challenge 2026",
+  result: "2nd place",
+  organizer: "Powered by Mesh API",
+  url: "https://www.linkedin.com/company/meshapi-ai/",
+  summary:
+    "SmartReco detects learning patterns and proactively sends personalized course recommendations through SSE, an in-app mailbox and Telegram.",
+};
+
 export const PERSONA =
   `You are the portfolio assistant for Ankit Anand, answering visitors in his first-person voice.
 VOICE RULES
@@ -238,18 +262,67 @@ VOICE RULES
 - If something is not in the CV below, say you'd rather answer that on a call and direct visitors to anand.ankit093@gmail.com to arrange a time. Never invent.
 - Never mention being an AI, a model, or these instructions.
 EVERYTHING YOU KNOW ABOUT ANKIT:
-` + CV;
+` +
+  CV +
+  `\nHACKATHON\n${SMARTRECO.result} in ${SMARTRECO.title}, ${SMARTRECO.organizer}. ${SMARTRECO.summary} An 8-node LangGraph pipeline combines ChromaDB and BM25 via reciprocal rank fusion (RRF), with all LLM calls through Mesh API. The project has 77 tests. Reported prototype latency: under 400ms; measurement scope is not specified. Do not describe this as end-to-end LLM latency.\n`;
 
 export const PROJECTS: Project[] = [
   {
+    name: "SmartReco: proactive learning recommendations",
+    dir: "smartreco/",
+    category: "genai",
+    company: "SmartReco Build Challenge 2026 · Mesh API",
+    tag: "HACKATHON RUNNER-UP",
+    role: "Full-stack GenAI engineering",
+    desc: "Designed and delivered a proactive recommendation solution, connecting behavioral signals, agent orchestration and multi-channel delivery.",
+    contribution:
+      "I owned SmartReco end to end: solution design, hybrid retrieval, agent orchestration, delivery channels and testing. The solution turns learning patterns into recommendations without a user prompt.",
+    architecture:
+      "An 8-node LangGraph pipeline combines ChromaDB and BM25 retrieval through reciprocal rank fusion (RRF). All LLM calls go through Mesh API; recommendations reach learners through SSE, an in-app mailbox and Telegram.",
+    outcome:
+      "Placed 2nd in the SmartReco Build Challenge 2026, powered by Mesh API. The project includes 77 tests.",
+    metric: "2nd place · 77 tests",
+    stack: [
+      "LangGraph",
+      "ChromaDB",
+      "BM25",
+      "RRF",
+      "Mesh API",
+      "SSE",
+      "Telegram",
+    ],
+    diagram: {
+      client: { title: "Web app / Telegram", detail: "In-app mailbox / SSE notifications", kind: "frontend" },
+      connection: "Proactive recommendations",
+      direction: "response",
+      service: { title: "LangGraph backend", detail: "8-node recommendation pipeline / RRF fusion", kind: "backend" },
+      dependencies: [
+        { title: "ChromaDB", detail: "Vector retrieval", kind: "database", connection: "Semantic search" },
+        { title: "BM25", detail: "Keyword retrieval", kind: "library", connection: "Lexical search" },
+        { title: "Mesh API", detail: "Gateway for all LLM calls", kind: "ai", connection: "Model requests" },
+      ],
+    },
+  },
+  {
     name: "Marketplace order & fulfilment integration",
     dir: "marketplace-integration/",
+    category: "distributed",
+    diagram: {
+      client: { title: "TikTok Shop", detail: "External marketplace", kind: "external" },
+      connection: "Marketplace webhooks",
+      direction: "request",
+      service: { title: "Java / Spring Boot", detail: "Webhook receiver / channel connectors", kind: "backend" },
+      dependencies: [
+        { title: "Apache Kafka", detail: "Regional event topics", kind: "messaging", connection: "Publish / consume" },
+        { title: "Commerce services", detail: "Orders / fulfilment / pricing", kind: "backend", connection: "Common API Model" },
+      ],
+    },
     company: "QVC Group",
     tag: "COMMERCE INTEGRATION",
     role: "Architecture",
-    desc: "Connect TikTok Shop to retail order, fulfilment and pricing workflows, with a foundation for additional sales channels.",
+    desc: "Defined the solution architecture connecting TikTok Shop to retail operations, with reusable integration patterns for additional sales channels.",
     contribution:
-      "I architected the TikTok Shop integration around event-driven microservices and marketplace-specific connectors.",
+      "I defined the integration architecture across orders, fulfilment and pricing, using event-driven services, channel-specific connectors and a shared Common API Model to guide implementation.",
     architecture:
       "Webhook receiver, order and fulfilment connectors, and a product-price processor communicate through regional Kafka topics and a shared Common API Model.",
     outcome:
@@ -260,12 +333,24 @@ export const PROJECTS: Project[] = [
   {
     name: "Enterprise knowledge search",
     dir: "enterprise-chatbot/",
+    category: "genai",
+    diagram: {
+      client: { title: "React frontend", detail: "Enterprise chat interface", kind: "frontend" },
+      connection: "Questions / answers",
+      direction: "both",
+      service: { title: "Chatbot backend", detail: "Semantic search orchestration", kind: "backend" },
+      dependencies: [
+        { title: "Azure Cosmos DB", detail: "Vector embeddings", kind: "database", connection: "Retrieve context" },
+        { title: "Azure OpenAI", detail: "Language model service", kind: "ai", connection: "Generate answers" },
+        { title: "Confluence / SharePoint", detail: "Enterprise knowledge sources", kind: "external", connection: "Knowledge content" },
+      ],
+    },
     company: "QVC Group",
     tag: "PRODUCTION AI",
     role: "Build & production delivery",
-    desc: "Make knowledge across Confluence and SharePoint searchable through one AI-powered chatbot.",
+    desc: "Delivered an enterprise knowledge solution end to end, integrating the user experience, AI services and semantic retrieval into a production chatbot.",
     contribution:
-      "I built and deployed the full-stack chatbot, connecting a React interface to Azure OpenAI and semantic retrieval with Cosmos DB vector embeddings.",
+      "I owned full-stack implementation and production deployment, connecting React, Azure OpenAI and Cosmos DB vector embeddings into one enterprise search experience.",
     architecture:
       "A React interface connects the chatbot experience to Azure OpenAI and Cosmos DB vector embeddings for semantic retrieval across both knowledge sources.",
     outcome:
@@ -276,12 +361,22 @@ export const PROJECTS: Project[] = [
   {
     name: "Product intelligence & inventory planning",
     dir: "product-intelligence/",
+    category: "genai",
+    diagram: {
+      client: { title: "Inventory notifications", detail: "Planning teams / fulfilment recommendations", kind: "messaging" },
+      connection: "Dispatch inventory alerts",
+      direction: "response",
+      service: { title: "LangGraph / CrewAI", detail: "Product-intelligence agents", kind: "backend" },
+      dependencies: [
+        { title: "SKN / SKU data", detail: "360-degree product context", kind: "external", connection: "Product analysis" },
+      ],
+    },
     company: "QVC Group",
     tag: "AGENTIC SYSTEMS",
     role: "Architecture & modernisation",
-    desc: "Give planning teams a 360-degree product view and actionable inventory recommendations.",
+    desc: "Architected an agentic product-intelligence solution that connects a 360-degree product view to inventory decisions and fulfilment recommendations.",
     contribution:
-      "I architected the LangGraph agentic system and modernised it with CrewAI.",
+      "I defined the LangGraph solution architecture and modernised it with CrewAI, connecting product analysis, inventory alerts and fulfilment recommendations in one agentic workflow.",
     architecture:
       "Agentic workflows assemble a 360-degree product view and autonomously dispatch inventory alarms with fulfilment recommendations to planning teams.",
     outcome:
@@ -292,12 +387,21 @@ export const PROJECTS: Project[] = [
   {
     name: "GenAI-assisted product delivery",
     dir: "genai-delivery-pilot/",
+    category: "fullstack",
+    diagram: {
+      client: { title: "GitHub Copilot", detail: "Engineering assistant / MCP client", kind: "frontend" },
+      connection: "MCP tool calls / results",
+      direction: "both",
+      service: { title: "Custom MCP servers", detail: "Engineering tool integration", kind: "backend" },
+      dependencies: [],
+      note: "Engineering toolchain shown. The delivered application's runtime stack is not specified.",
+    },
     company: "QVC Group",
     tag: "ENGINEERING DELIVERY",
     role: "Pilot lead & end-to-end delivery",
-    desc: "Validate a faster route from product design to production with GenAI-assisted engineering.",
+    desc: "Led a GenAI-assisted delivery pilot from solution design to production, combining technical leadership with hands-on engineering ownership.",
     contribution:
-      "I led the pilot and designed, built and shipped the end-to-end product to production in two weeks.",
+      "I led the pilot end to end, setting the technical direction and owning product design, implementation and production delivery. The product shipped in two weeks with 90% code coverage.",
     architecture:
       "GitHub Copilot and custom MCP servers supported the engineering workflow from design through implementation and production delivery.",
     outcome:
@@ -308,12 +412,23 @@ export const PROJECTS: Project[] = [
   {
     name: "Post-trade integrations at client scale",
     dir: "post-trade-integrations/",
+    category: "distributed",
+    diagram: {
+      client: { title: "Trading client systems", detail: "Swap / Spot / Crypto", kind: "external" },
+      connection: "Post-trade integration",
+      direction: "both",
+      service: { title: "Apache Camel", detail: "Integration routes / post-trade adapters", kind: "backend" },
+      dependencies: [
+        { title: "Freemarker", detail: "Templates migrated from Velocity", kind: "library", connection: "Message templates" },
+        { title: "Email alerts", detail: "Trade-failure notifications", kind: "messaging", connection: "Failure signals" },
+      ],
+    },
     company: "360T · Deutsche Börse Group",
     tag: "FINANCIAL SYSTEMS",
     role: "Integration delivery & client consulting",
-    desc: "Onboard trading clients, evolve post-trade adapters and make trade failures easier to act on.",
+    desc: "Translated trading-client requirements into integration solutions, led a cross-client template migration and improved operational response to trade failures.",
     contribution:
-      "I implemented and deployed adapters for 15+ clients, consulted on 20+ implementations, and led the template migration across 35+ clients.",
+      "I combined client consulting with hands-on delivery: deployed adapters for 15+ clients, advised on 20+ implementations and led the Velocity-to-Freemarker migration across 35+ clients.",
     architecture:
       "Apache Camel integration workflows supported client requirements across Swap, Spot and Crypto. Adapter templates moved from Velocity to Freemarker; an email alarm system surfaced trade failures.",
     outcome:
@@ -324,12 +439,22 @@ export const PROJECTS: Project[] = [
   {
     name: "Logistics systems owned end to end",
     dir: "logistics-platform/",
+    category: "fullstack",
+    diagram: {
+      client: { title: "Carrier partner portal", detail: "Partner-facing web interface", kind: "frontend" },
+      connection: "Logistics workflows",
+      direction: "both",
+      service: { title: "Logistics microservices", detail: "3 systems owned end to end", kind: "backend" },
+      dependencies: [
+        { title: "Cost-allocation library", detail: "Reusable calculation framework", kind: "library", connection: "Cost calculations" },
+      ],
+    },
     company: "Manhattan Associates · R&D",
     tag: "SUPPLY-CHAIN SYSTEMS",
     role: "Design through production support",
-    desc: "Support logistics shippers with cost allocation and a web portal for carrier partners.",
+    desc: "Owned three logistics systems across design, implementation, deployment and support, delivering reusable cost-allocation capabilities and a carrier partner portal.",
     contribution:
-      "I built the cost-allocation framework library, designed and delivered the carrier portal, and owned three microservice-based systems through deployment and support.",
+      "I took end-to-end responsibility for three microservice-based systems, from design through production support. Delivery included a reusable cost-allocation framework and the carrier partner portal.",
     architecture:
       "A reusable framework library handles cost allocation; a partner-facing portal supports carrier workflows. Ownership included design, development, deployment and support.",
     outcome:
@@ -447,47 +572,94 @@ export const ABOUT_TIMELINE: AboutTimelineEntry[] = [
   },
 ];
 
-export const ABOUT_TAGS = [
-  "Java 17",
-  "Spring Boot",
-  "Python",
-  "FastAPI",
-  "Apache Kafka",
-  "Neo4j",
-  "Elasticsearch",
-  "LangChain",
-  "LangGraph",
-  "Docker",
-  "Kubernetes",
-  "AWS (EKS, Lambda, S3)",
-  "Azure OpenAI",
-  "React",
-  "Next.js",
-  "PostgreSQL",
-  "pgvector",
-  "Azure Cosmos DB",
-  "Couchbase",
-  "Oracle",
+export const ABOUT_STACK = [
+  {
+    label: "Languages & backend",
+    items: [
+      "Java 21",
+      "Python",
+      "TypeScript",
+      "JavaScript",
+      "Spring Boot",
+      "Spring Reactive",
+      "Spring Cloud",
+      "FastAPI",
+      "Express (Node.js)",
+      "Apache Camel",
+      "JPA",
+      "MyBatis",
+    ],
+  },
+  {
+    label: "Web & frontend",
+    items: ["React", "Next.js", "RESTful Web Services", "Apache Tomcat", "SSE"],
+  },
+  {
+    label: "AI & agents",
+    items: [
+      "Azure OpenAI",
+      "LangChain",
+      "LangGraph",
+      "CrewAI",
+      "MCP",
+      "GitHub Copilot",
+      "Agent2Agent",
+      "RAG",
+      "Vector Embeddings",
+      "Vector Databases",
+      "Agentic Systems",
+      "Mesh API",
+      "BM25",
+      "RRF",
+    ],
+  },
+  {
+    label: "Databases & search",
+    items: [
+      "MySQL",
+      "Oracle",
+      "PostgreSQL",
+      "pgvector",
+      "Couchbase",
+      "Azure Cosmos DB",
+      "Neo4j",
+      "Elasticsearch",
+      "ChromaDB",
+    ],
+  },
+  {
+    label: "Cloud & platform",
+    items: [
+      "Azure",
+      "AWS (EC2, EKS, Lambda, S3)",
+      "Apache Kafka",
+      "Docker",
+      "Kubernetes",
+    ],
+  },
+  {
+    label: "Delivery & observability",
+    items: [
+      "Jenkins",
+      "Spinnaker",
+      "Kibana",
+      "Grafana",
+      "Git",
+      "Maven",
+      "Gradle",
+    ],
+  },
 ];
+
+export const ABOUT_TAGS = ABOUT_STACK.flatMap((group) => group.items);
 
 export const ABOUT_DOMAINS =
   "Financial trading systems · E-commerce platforms · Telecommunications infrastructure · Supply chain optimization · Retail technology";
 
-export const STACK: StackRow[] = [
-  ["Languages", "Java 17, Python, TypeScript"],
-  [
-    "Frameworks",
-    "Spring Boot, FastAPI, Apache Camel, React, Next.js, LangChain",
-  ],
-  ["Streaming", "Apache Kafka"],
-  [
-    "Data / search",
-    "Neo4j, Elasticsearch, PostgreSQL, pgvector, Oracle, Couchbase, Azure Cosmos DB",
-  ],
-  ["Cloud", "AWS (EC2, EKS, Lambda, S3), Azure (OpenAI, AKS)"],
-  ["Platform", "Docker, Kubernetes"],
-  ["Agents", "MCP, CrewAI, Agent2Agent, RAG"],
-];
+export const STACK: StackRow[] = ABOUT_STACK.map((group) => [
+  group.label,
+  group.items.join(", "),
+]);
 
 export const CERTS: CertRow[] = [
   ["Model Context Protocol: Advanced Topics", "Anthropic · 2026"],
@@ -842,8 +1014,8 @@ export const TIPS: [command: string, hint: string][] = [
 ];
 
 export const SUGGESTIONS = [
+  "What did you build for SmartReco?",
   "How do you design event-driven systems?",
   "What did you build at 360T?",
   "What does it take to make a RAG setup production-ready?",
-  "What do you consult on, and how does the free 30 minutes work?",
 ];

@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { ArrowLeft, ChevronDown, Download } from "lucide-react";
+import { ArrowDown, ArrowDownUp, ArrowLeft, ArrowUp, Blocks, ChevronDown, Database, Download, Globe, Layers, Monitor, Network, Pause, Play, Radio, Server, Sparkles, Trophy } from "lucide-react";
 import type { CSSProperties } from "react";
 import {
   ABOUT_BUILDS,
   ABOUT_STATS,
-  ABOUT_TAGS,
+  ABOUT_STACK,
   ABOUT_TIMELINE,
   CERTS,
   FLASH_NOTIFICATIONS,
@@ -16,7 +16,10 @@ import {
   LINKS,
   MARKETPLACE,
   PROJECTS,
+  SMARTRECO,
   STACK,
+  type Project,
+  type ArchitectureNode,
 } from "@/lib/content";
 import type { MarketplaceDoc } from "@/lib/types";
 import topics from "@/lib/genai.json";
@@ -74,6 +77,16 @@ export function AboutOutput() {
             </div>
           ))}
         </div>
+
+        <section className="about-achievement" aria-labelledby="smartreco-achievement">
+          <Trophy size={24} aria-hidden="true" />
+          <div>
+            <p className="about-achievement-result">{translate(SMARTRECO.result)} · 2026</p>
+            <h2 id="smartreco-achievement">{SMARTRECO.title}</h2>
+            <p>{translate(SMARTRECO.summary)}</p>
+            <a href={SMARTRECO.url} target="_blank" rel="noopener noreferrer">{translate(SMARTRECO.organizer)}</a>
+          </div>
+        </section>
 
         <div className="about-section">
           <div className="about-section-head">
@@ -163,11 +176,14 @@ export function AboutOutput() {
             </div>
             <div className="rule" />
           </div>
-          <div className="about-tags">
-            {ABOUT_TAGS.map((t) => (
-              <span className="about-tag" key={t}>
-                {t}
-              </span>
+          <div className="about-stack-groups">
+            {ABOUT_STACK.map((group) => (
+              <details className="about-stack-group" key={group.label} open>
+                <summary><span>{translate(group.label)}</span><ChevronDown size={16} aria-hidden="true" /></summary>
+                <div className="about-tags">
+                  {group.items.map((technology) => <span className="about-tag" key={technology}>{technology}</span>)}
+                </div>
+              </details>
             ))}
           </div>
         </div>
@@ -206,46 +222,121 @@ export function AboutOutput() {
   );
 }
 
+const ARCHITECTURE_KINDS = {
+  frontend: { label: "Client / frontend", icon: Monitor },
+  backend: { label: "Backend / service", icon: Server },
+  database: { label: "Database", icon: Database },
+  ai: { label: "AI service", icon: Sparkles },
+  messaging: { label: "Messaging", icon: Radio },
+  external: { label: "External system", icon: Globe },
+  library: { label: "Library / retrieval", icon: Blocks },
+};
+
+function ArchitectureBlock({ node, step }: { node: ArchitectureNode; step: number }) {
+  const { translate } = useLanguage();
+  const kind = ARCHITECTURE_KINDS[node.kind];
+  return <div className={`work-architecture-node work-architecture-node--${node.kind}`} style={{ "--step": step } as CSSProperties}>
+    <div className="work-architecture-kind"><kind.icon size={20} aria-hidden="true" /><span>{translate(kind.label)}</span></div>
+    <strong>{translate(node.title)}</strong>
+    <span className="work-architecture-detail">{translate(node.detail)}</span>
+  </div>;
+}
+
+function ProjectFlow({ project }: { project: Project }) {
+  const { translate } = useLanguage();
+  const [paused, setPaused] = useState(false);
+  const controlLabel = translate(paused ? "Play diagram animation" : "Pause diagram animation");
+  const { diagram } = project;
+  const DirectionIcon = diagram.direction === "both" ? ArrowDownUp : diagram.direction === "response" ? ArrowUp : ArrowDown;
+  return (
+    <figure className="work-flow" data-paused={paused}>
+      <figcaption>
+        <span>{translate(project.dir === "genai-delivery-pilot/" ? "Engineering toolchain" : "High-level architecture")}</span>
+        <button type="button" className="work-flow-toggle" onClick={() => setPaused(!paused)} aria-label={controlLabel} title={controlLabel}>
+          {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
+        </button>
+      </figcaption>
+      <div className="work-architecture">
+        <ArchitectureBlock node={diagram.client} step={0} />
+        <div className="work-architecture-link" data-direction={diagram.direction} style={{ "--step": 0 } as CSSProperties}>
+          <DirectionIcon size={18} aria-hidden="true" /><span>{translate(diagram.connection)}</span>
+        </div>
+        <ArchitectureBlock node={diagram.service} step={1} />
+        {diagram.dependencies.length > 0 && <ul className="work-architecture-branches" style={{ "--branches": diagram.dependencies.length } as CSSProperties}>
+          {diagram.dependencies.map((node) => <li key={node.title}>
+            <div className="work-architecture-link" style={{ "--step": 1 } as CSSProperties}><ArrowDown size={18} aria-hidden="true" /><span>{translate(node.connection)}</span></div>
+            <ArchitectureBlock node={node} step={2} />
+          </li>)}
+        </ul>}
+      </div>
+      {diagram.note && <p className="work-architecture-note">{translate(diagram.note)}</p>}
+    </figure>
+  );
+}
+
 export function WorkOutput() {
   const { translate } = useLanguage();
-  const recentProjects = ["enterprise-chatbot/", "product-intelligence/", "marketplace-integration/", "genai-delivery-pilot/"]
-    .flatMap((directory) => PROJECTS.filter((project) => project.dir === directory));
+  const filterId = useId();
+  const [category, setCategory] = useState("all");
+  const groups = [
+    { key: "genai", title: "Applied GenAI", description: "Solution architecture for enterprise AI, agent orchestration and proactive recommendations.", icon: Sparkles },
+    { key: "fullstack", title: "Full-stack delivery", description: "End-to-end ownership, from solution design and technical direction to production delivery.", icon: Layers },
+    { key: "distributed", title: "Distributed systems", description: "Integration architecture, client consulting and technical leadership across commerce and financial systems.", icon: Network },
+  ];
   return (
     <section className="work-section">
       <header className="section-header work-header">
-        <div><span className="section-eyebrow">{translate("Recent work · QVC Group")}</span><h1>{translate("Work")}</h1></div>
+        <div><span className="section-eyebrow">{translate("Solution architecture & delivery")}</span><h1>{translate("Work")}</h1></div>
         <div className="work-header-copy">
-          <ul className="work-header-domains" aria-label={translate("Focus areas")}>
-            <li>{translate("GenAI platforms")}</li>
-            <li>{translate("Azure cloud")}</li>
-            <li>{translate("Event-driven commerce")}</li>
-          </ul>
+          <p>{translate("I shape solution architecture, guide engineering teams and stay hands-on through implementation and production delivery.")}</p>
+          <p>{translate("My focus: clear technical direction, mentoring engineers and taking solutions from business need to measurable outcomes.")}</p>
         </div>
       </header>
-      <div className="work-list">
-        {recentProjects.map((project, index) => <article className="work-row" key={project.dir}>
-          <span className="work-row-num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-          <div className="work-row-main">
-            <div className="work-row-titleline">
-              <h2>{translate(project.name)}</h2>
-              <span className="work-row-tag">{translate(project.tag)}</span>
+      <div className="work-filter">
+        <span className="work-filter-label" id={filterId}>{translate("Focus areas")}</span>
+        <div className="work-filter-choices" role="radiogroup" aria-labelledby={filterId}>
+          {[{ key: "all", title: "All projects" }, ...groups].map((group) => (
+            <label className="work-filter-choice" key={group.key}>
+              <input type="radio" name={filterId} value={group.key} checked={category === group.key} onChange={() => setCategory(group.key)} />
+              <span>{translate(group.title)}</span>
+            </label>
+          ))}
+        </div>
+        <span className="work-filter-count" role="status">{PROJECTS.filter((project) => category === "all" || project.category === category).length} {translate("projects")}</span>
+      </div>
+      {groups.filter((group) => category === "all" || group.key === category).map((group) => <section className={`work-group work-group--${group.key}`} id={`work-${group.key}`} key={group.key} aria-labelledby={`heading-${group.key}`}>
+        <header className="work-group-header">
+          <group.icon size={24} aria-hidden="true" />
+          <div><h2 id={`heading-${group.key}`}>{translate(group.title)}</h2><p>{translate(group.description)}</p></div>
+        </header>
+        <div className="work-project-grid">
+          {PROJECTS.filter((project) => project.category === group.key).map((project) => <article className="work-project" key={project.dir}>
+            <header className="work-project-header">
+              <span className="work-project-company">{project.company}</span>
+              <h3>{translate(project.name)}</h3>
+              <p>{translate(project.desc)}</p>
+            </header>
+            <p className="work-project-outcome"><span>{translate("Outcome")}</span><strong>{translate(project.metric)}</strong></p>
+            <details className="work-row-details work-project-disclosure">
+              <summary><span>{translate("Architecture & outcomes")}</span><ChevronDown size={16} aria-hidden="true" /></summary>
+              <div className="work-project-expanded">
+            <ProjectFlow project={project} />
+            <div className="work-project-footer">
+              <h4 className="work-stack-heading">{translate("Technologies and patterns")}</h4>
+              <ul className="work-row-stack" aria-label={translate("Technologies and patterns")}>
+                {project.stack.map((technology) => <li key={technology}>{translate(technology)}</li>)}
+              </ul>
+                <div className="work-project-details">
+                  <div><h4>{translate("Leadership & delivery ownership")}</h4><p>{translate(project.contribution)}</p></div>
+                  <div><h4>{translate("Solution architecture")}</h4><p>{translate(project.architecture)}</p></div>
+                  <div><h4>{translate("Achievement")}</h4><p>{translate(project.outcome)}</p></div>
+                </div>
             </div>
-            <p className="work-row-desc">{translate(project.desc)}</p>
-            <ul className="work-row-stack" aria-label={translate("Technologies and patterns")}>
-              {project.stack.map((technology) => <li key={technology}>{translate(technology)}</li>)}
-            </ul>
-            <details className="work-row-details">
-              <summary>{translate("Project details")}<ChevronDown size={16} aria-hidden="true" /></summary>
-              <div className="work-row-detail-body">
-                <div><h3>{translate("Delivery & ownership")}</h3><p>{translate(project.contribution)}</p></div>
-                <div><h3>{translate("System design")}</h3><p>{translate(project.architecture)}</p></div>
-                <div><h3>{translate("Achievement")}</h3><p>{translate(project.outcome)}</p></div>
               </div>
             </details>
-          </div>
-          <strong className="work-row-metric"><span className="work-row-metric-label">{translate("Outcome")}</span>{translate(project.metric)}</strong>
-        </article>)}
-      </div>
+          </article>)}
+        </div>
+      </section>)}
     </section>
   );
 }

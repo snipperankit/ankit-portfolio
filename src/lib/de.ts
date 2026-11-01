@@ -1,4 +1,208 @@
 const de: Record<string, string> = {
+  "Client / frontend": "Client / Frontend",
+  "Backend / service": "Backend / Service",
+  Database: "Datenbank",
+  "AI service": "KI-Service",
+  Messaging: "Nachrichtenvermittlung",
+  "External system": "Externes System",
+  "Library / retrieval": "Bibliothek / Retrieval",
+  "Engineering toolchain": "Entwicklungswerkzeuge",
+  "Engineering toolchain shown. The delivered application's runtime stack is not specified.":
+    "Dargestellt sind die Entwicklungswerkzeuge. Der Laufzeit-Stack der ausgelieferten Anwendung ist nicht angegeben.",
+  "Web app / Telegram": "Web-App / Telegram",
+  "In-app mailbox / SSE notifications":
+    "In-App-Postfach / SSE-Benachrichtigungen",
+  "Proactive recommendations": "Proaktive Empfehlungen",
+  "LangGraph backend": "LangGraph-Backend",
+  "8-node recommendation pipeline / RRF fusion":
+    "Empfehlungspipeline mit 8 Knoten / RRF-Fusion",
+  "Vector retrieval": "Vektorsuche",
+  "Semantic search": "Semantische Suche",
+  "Keyword retrieval": "Stichwortsuche",
+  "Lexical search": "Lexikalische Suche",
+  "Gateway for all LLM calls": "Gateway für alle LLM-Aufrufe",
+  "Model requests": "Modellanfragen",
+  "External marketplace": "Externer Marktplatz",
+  "Marketplace webhooks": "Marktplatz-Webhooks",
+  "Webhook receiver / channel connectors":
+    "Webhook-Empfänger / Kanalkonnektoren",
+  "Regional event topics": "Regionale Event-Topics",
+  "Publish / consume": "Veröffentlichen / konsumieren",
+  "React frontend": "React-Frontend",
+  "Enterprise chat interface": "Enterprise-Chat-Oberfläche",
+  "Questions / answers": "Fragen / Antworten",
+  "Chatbot backend": "Chatbot-Backend",
+  "Semantic search orchestration": "Orchestrierung der semantischen Suche",
+  "Vector embeddings": "Vektoreinbettungen",
+  "Retrieve context": "Kontext abrufen",
+  "Language model service": "Sprachmodell-Service",
+  "Generate answers": "Antworten generieren",
+  "Enterprise knowledge sources": "Unternehmensweite Wissensquellen",
+  "Knowledge content": "Wissensinhalte",
+  "Inventory notifications": "Bestandsmeldungen",
+  "Planning teams / fulfilment recommendations":
+    "Planungsteams / Fulfilment-Empfehlungen",
+  "Dispatch inventory alerts": "Bestandsalarme versenden",
+  "Product-intelligence agents": "Product-Intelligence-Agenten",
+  "SKN / SKU data": "SKN-/SKU-Daten",
+  "360-degree product context": "360-Grad-Produktkontext",
+  "Product analysis": "Produktanalyse",
+  "Engineering assistant / MCP client": "Entwicklungsassistent / MCP-Client",
+  "MCP tool calls / results": "MCP-Werkzeugaufrufe / Ergebnisse",
+  "Custom MCP servers": "Eigene MCP-Server",
+  "Engineering tool integration": "Integration von Entwicklungswerkzeugen",
+  "Trading client systems": "Handelssysteme der Kunden",
+  "Post-trade integration": "Post-Trade-Integration",
+  "Integration routes / post-trade adapters":
+    "Integrationsrouten / Post-Trade-Adapter",
+  "Templates migrated from Velocity": "Von Velocity migrierte Templates",
+  "Message templates": "Nachrichtenvorlagen",
+  "Email alerts": "E-Mail-Alarme",
+  "Trade-failure notifications": "Meldungen zu fehlgeschlagenen Trades",
+  "Failure signals": "Fehlersignale",
+  "Carrier partner portal": "Carrier-Partnerportal",
+  "Partner-facing web interface": "Weboberfläche für Partner",
+  "Logistics microservices": "Logistik-Microservices",
+  "3 systems owned end to end": "3 Systeme durchgängig verantwortet",
+  "Cost-allocation library": "Kostenallokations-Bibliothek",
+  "Reusable calculation framework": "Wiederverwendbares Berechnungsframework",
+  "Cost calculations": "Kostenberechnungen",
+  "Play diagram animation": "Diagrammanimation starten",
+  "Pause diagram animation": "Diagrammanimation pausieren",
+  "Solution architecture & delivery": "Lösungsarchitektur & Umsetzung",
+  "I shape solution architecture, guide engineering teams and stay hands-on through implementation and production delivery.":
+    "Ich gestalte Lösungsarchitekturen, leite Engineering-Teams fachlich und arbeite von der Implementierung bis zur Produktivsetzung selbst mit.",
+  "My focus: clear technical direction, mentoring engineers and taking solutions from business need to measurable outcomes.":
+    "Mein Fokus: klare technische Ausrichtung, Mentoring von Engineers und Lösungen, die fachliche Anforderungen in messbare Ergebnisse übersetzen.",
+  "Solution architecture for enterprise AI, agent orchestration and proactive recommendations.":
+    "Lösungsarchitektur für Enterprise-KI, Agenten-Orchestrierung und proaktive Empfehlungen.",
+  "End-to-end ownership, from solution design and technical direction to production delivery.":
+    "End-to-End-Verantwortung vom Lösungsentwurf über die technische Ausrichtung bis zur Produktivsetzung.",
+  "Integration architecture, client consulting and technical leadership across commerce and financial systems.":
+    "Integrationsarchitektur, Kundenberatung und technische Leitung für Handels- und Finanzsysteme.",
+  "Leadership & delivery ownership":
+    "Technische Führung & Umsetzungsverantwortung",
+  "Solution architecture": "Lösungsarchitektur",
+  "Designed and delivered a proactive recommendation solution, connecting behavioral signals, agent orchestration and multi-channel delivery.":
+    "Eine proaktive Empfehlungslösung konzipiert und umgesetzt, die Verhaltenssignale, Agenten-Orchestrierung und mehrere Ausgabekanäle verbindet.",
+  "I owned SmartReco end to end: solution design, hybrid retrieval, agent orchestration, delivery channels and testing. The solution turns learning patterns into recommendations without a user prompt.":
+    "Ich habe SmartReco durchgängig verantwortet: Lösungsentwurf, hybride Suche, Agenten-Orchestrierung, Ausgabekanäle und Tests. Die Lösung übersetzt Lernmuster ohne vorherige Nutzeranfrage in Empfehlungen.",
+  "Defined the solution architecture connecting TikTok Shop to retail operations, with reusable integration patterns for additional sales channels.":
+    "Die Lösungsarchitektur für die Anbindung von TikTok Shop an Handelsprozesse definiert, mit wiederverwendbaren Integrationsmustern für weitere Vertriebskanäle.",
+  "I defined the integration architecture across orders, fulfilment and pricing, using event-driven services, channel-specific connectors and a shared Common API Model to guide implementation.":
+    "Ich habe die Integrationsarchitektur für Bestellungen, Fulfilment und Preise definiert. Ereignisgesteuerte Services, kanalspezifische Konnektoren und ein gemeinsames Common API Model bilden die Grundlage für die Umsetzung.",
+  "Delivered an enterprise knowledge solution end to end, integrating the user experience, AI services and semantic retrieval into a production chatbot.":
+    "Eine unternehmensweite Wissenslösung durchgängig umgesetzt und Benutzeroberfläche, KI-Services und semantische Suche in einem produktiven Chatbot integriert.",
+  "I owned full-stack implementation and production deployment, connecting React, Azure OpenAI and Cosmos DB vector embeddings into one enterprise search experience.":
+    "Ich habe die Full-Stack-Implementierung und Produktivsetzung verantwortet und React, Azure OpenAI und Cosmos-DB-Vektoreinbettungen zu einer unternehmensweiten Suchlösung verbunden.",
+  "Architected an agentic product-intelligence solution that connects a 360-degree product view to inventory decisions and fulfilment recommendations.":
+    "Eine agentische Product-Intelligence-Lösung konzipiert, die eine 360-Grad-Produktsicht mit Bestandsentscheidungen und Fulfilment-Empfehlungen verbindet.",
+  "I defined the LangGraph solution architecture and modernised it with CrewAI, connecting product analysis, inventory alerts and fulfilment recommendations in one agentic workflow.":
+    "Ich habe die LangGraph-Lösungsarchitektur definiert und mit CrewAI modernisiert. Sie verbindet Produktanalyse, Bestandsalarme und Fulfilment-Empfehlungen in einem agentischen Workflow.",
+  "Led a GenAI-assisted delivery pilot from solution design to production, combining technical leadership with hands-on engineering ownership.":
+    "Einen GenAI-gestützten Umsetzungspiloten vom Lösungsentwurf bis zum Produktivbetrieb geleitet und dabei technische Führung mit eigener Entwicklungsverantwortung verbunden.",
+  "I led the pilot end to end, setting the technical direction and owning product design, implementation and production delivery. The product shipped in two weeks with 90% code coverage.":
+    "Ich habe den Piloten durchgängig geleitet, die technische Richtung vorgegeben und Produktentwurf, Implementierung und Produktivsetzung verantwortet. Das Produkt wurde in zwei Wochen mit 90 % Testabdeckung ausgeliefert.",
+  "Translated trading-client requirements into integration solutions, led a cross-client template migration and improved operational response to trade failures.":
+    "Anforderungen von Handelskunden in Integrationslösungen übersetzt, eine kundenübergreifende Template-Migration geleitet und die Reaktion auf fehlgeschlagene Trades verbessert.",
+  "I combined client consulting with hands-on delivery: deployed adapters for 15+ clients, advised on 20+ implementations and led the Velocity-to-Freemarker migration across 35+ clients.":
+    "Ich habe Kundenberatung mit eigener Umsetzung verbunden: Adapter für über 15 Kunden ausgeliefert, bei über 20 Implementierungen beraten und die Migration von Velocity zu Freemarker bei über 35 Kunden geleitet.",
+  "Owned three logistics systems across design, implementation, deployment and support, delivering reusable cost-allocation capabilities and a carrier partner portal.":
+    "Drei Logistiksysteme über Entwurf, Implementierung, Deployment und Support hinweg verantwortet und dabei wiederverwendbare Kostenallokation sowie ein Carrier-Partnerportal umgesetzt.",
+  "I took end-to-end responsibility for three microservice-based systems, from design through production support. Delivery included a reusable cost-allocation framework and the carrier partner portal.":
+    "Ich habe drei Microservice-basierte Systeme vom Entwurf bis zum Produktivsupport durchgängig verantwortet. Dazu gehörten ein wiederverwendbares Kostenallokations-Framework und das Carrier-Partnerportal.",
+  "2nd place": "2. Platz",
+  "Powered by Mesh API": "Unterstützt von Mesh API",
+  "SmartReco detects learning patterns and proactively sends personalized course recommendations through SSE, an in-app mailbox and Telegram.":
+    "SmartReco erkennt Lernmuster und sendet proaktiv personalisierte Kursempfehlungen über SSE, ein In-App-Postfach und Telegram.",
+  "SmartReco: proactive learning recommendations":
+    "SmartReco: proaktive Lernempfehlungen",
+  "I built SmartReco to detect behavioral patterns, reason about learning needs and deliver recommendations without waiting for a user prompt.":
+    "Ich habe SmartReco entwickelt, um Verhaltensmuster zu erkennen, Lernbedürfnisse abzuleiten und Empfehlungen ohne vorherige Nutzeranfrage zu liefern.",
+  "An 8-node LangGraph pipeline combines ChromaDB and BM25 retrieval through reciprocal rank fusion (RRF). All LLM calls go through Mesh API; recommendations reach learners through SSE, an in-app mailbox and Telegram.":
+    "Eine LangGraph-Pipeline mit 8 Knoten kombiniert ChromaDB und BM25 mittels Reciprocal Rank Fusion (RRF). Alle LLM-Aufrufe laufen über Mesh API; Empfehlungen erreichen Lernende über SSE, ein In-App-Postfach und Telegram.",
+  "Placed 2nd in the SmartReco Build Challenge 2026, powered by Mesh API. The project includes 77 tests.":
+    "2. Platz bei der SmartReco Build Challenge 2026, unterstützt von Mesh API. Das Projekt umfasst 77 Tests.",
+  "2nd place · 77 tests": "2. Platz · 77 Tests",
+  "Learning behavior": "Lernverhalten",
+  "Pattern detection": "Mustererkennung",
+  "Hybrid retrieval": "Hybride Suche",
+  "Proactive reasoning": "Proaktive Analyse",
+  "8-node LangGraph / Mesh API": "LangGraph mit 8 Knoten / Mesh API",
+  Recommendations: "Empfehlungen",
+  "SSE / in-app mailbox / Telegram": "SSE / In-App-Postfach / Telegram",
+  "Languages & backend": "Sprachen & Backend",
+  "Web & frontend": "Web & Frontend",
+  "AI & agents": "KI & Agenten",
+  "Databases & search": "Datenbanken & Suche",
+  "Cloud & platform": "Cloud & Plattform",
+  "Delivery & observability": "Auslieferung & Observability",
+  "Portfolio facts (live AI is offline):":
+    "Portfolio-Fakten (Live-KI ist offline):",
+  "For more detail, email anand.ankit093@gmail.com.":
+    "Für weitere Details schreib an anand.ankit093@gmail.com.",
+  "I'm open to Solution Architect and Senior Engineer opportunities and conversations about distributed systems, cloud architecture and applied GenAI. For availability and consultation terms, please email me.":
+    "Ich bin offen für Solution-Architect- und Senior-Engineer-Rollen sowie Gespräche über verteilte Systeme, Cloud-Architektur und angewandte GenAI. Für Verfügbarkeit und Beratungsbedingungen schreib mir bitte eine E-Mail.",
+  "I'm Ankit Anand, based in Ulm, Germany, with 9 years of experience across QVC, 360T, Manhattan Associates and Nokia. I work on distributed systems, full-stack delivery and applied GenAI. My CV is available in English and German in the CV section.":
+    "Ich bin Ankit Anand aus Ulm mit 9 Jahren Erfahrung bei QVC, 360T, Manhattan Associates und Nokia. Ich arbeite an verteilten Systemen, Full-Stack-Entwicklung und angewandter GenAI. Mein Lebenslauf ist im CV-Bereich auf Deutsch und Englisch verfügbar.",
+  "I can share published facts about SmartReco, my projects, tech stack and experience. I don't have a verified answer to that question here.":
+    "Ich kann veröffentlichte Fakten zu SmartReco, meinen Projekten, meinem Tech-Stack und meiner Erfahrung teilen. Für diese Frage liegt mir hier keine gesicherte Antwort vor.",
+  "What did you build for SmartReco?": "Was hast du für SmartReco entwickelt?",
+  "Whatever you do, don't drag the desk.": "Bloß nicht am Schreibtisch ziehen.",
+  "Whatever you do, don't swipe the desk.":
+    "Bloß nicht über den Schreibtisch wischen.",
+  "All projects": "Alle Projekte",
+  projects: "Projekte",
+  "Selected engineering work": "Ausgewählte Entwicklungsprojekte",
+  "Applied GenAI": "Angewandte GenAI",
+  "Full-stack delivery": "Full-Stack-Entwicklung",
+  "Enterprise knowledge search and agentic product intelligence.":
+    "Unternehmensweite Wissenssuche und agentische Produktintelligenz.",
+  "From product design and interfaces to services and production.":
+    "Vom Produktentwurf und der Oberfläche bis zu Services und Produktivbetrieb.",
+  "Event-driven commerce and financial integrations at client scale.":
+    "Ereignisgesteuerter Handel und Finanzintegrationen für zahlreiche Kunden.",
+  "Delivery flow": "Entwicklungsablauf",
+  "High-level architecture": "Architekturüberblick",
+  "Marketplace events": "Marktplatzereignisse",
+  Connectors: "Konnektoren",
+  "Webhook receiver / Common API Model": "Webhook-Empfänger / Common API Model",
+  "Regional topics": "Regionale Topics",
+  "Commerce services": "Handelsservices",
+  "Orders / fulfilment / pricing": "Bestellungen / Fulfilment / Preise",
+  "Knowledge sources": "Wissensquellen",
+  "Semantic retrieval": "Semantische Suche",
+  "Cosmos DB vector embeddings": "Cosmos-DB-Vektoreinbettungen",
+  "AI-powered search": "KI-gestützte Suche",
+  "Chat interface": "Chat-Oberfläche",
+  "Product data": "Produktdaten",
+  "Agent workflows": "Agenten-Workflows",
+  "Inventory insight": "Bestandsanalyse",
+  "Alerts / fulfilment recommendations": "Alarme / Fulfilment-Empfehlungen",
+  "Planning teams": "Planungsteams",
+  "Operational decisions": "Operative Entscheidungen",
+  "Product design": "Produktentwurf",
+  "End-to-end ownership": "Durchgängige Verantwortung",
+  Implementation: "Implementierung",
+  "GitHub Copilot / custom MCP": "GitHub Copilot / eigene MCP-Server",
+  Verification: "Verifikation",
+  "90% code coverage": "90 % Testabdeckung",
+  Production: "Produktivbetrieb",
+  "Delivered in 2 weeks": "In 2 Wochen ausgeliefert",
+  "Trading clients": "Handelskunden",
+  "Integration workflows": "Integrations-Workflows",
+  "Post-trade adapters": "Post-Trade-Adapter",
+  "Freemarker templates": "Freemarker-Vorlagen",
+  "Failure monitoring": "Fehlerüberwachung",
+  "Email alarms": "E-Mail-Alarme",
+  "Carrier partners": "Transportpartner",
+  "Web portal": "Webportal",
+  "Logistics workflows": "Logistikprozesse",
+  "Microservice-based systems": "Microservice-basierte Systeme",
+  "Cost allocation": "Kostenallokation",
+  "Reusable framework library": "Wiederverwendbare Framework-Bibliothek",
+  Shippers: "Versender",
+  "99% calculation precision": "99 % Berechnungsgenauigkeit",
   "Project details": "Projektdetails",
   "Working on something similar?": "Arbeiten Sie an etwas Ähnlichem?",
   "Want this kind of work on your team?":

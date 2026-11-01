@@ -74,11 +74,16 @@ a{color:var(--accent);text-decoration:none}a:hover{color:var(--accent-hover)}
 .lamp-beam{position:absolute;left:29%;top:31.6%;width:14%;height:34%;transform-origin:0 50%;transform:translateY(-50%) rotate(50deg);clip-path:polygon(0 50%,100% 0%,100% 100%);background:linear-gradient(90deg,rgba(var(--lamp-rgb),.95),rgba(var(--lamp-rgb),.55) 35%,rgba(var(--lamp-dark-rgb),.4) 65%,rgba(var(--lamp-dark-rgb),.15) 85%,rgba(var(--lamp-dark-rgb),0) 100%);filter:blur(1.5px) drop-shadow(0 0 7px rgba(var(--lamp-rgb),.5));pointer-events:none;opacity:0}
 .hero-visual.lamp-on .lamp-glow,.hero-visual.lamp-on .lamp-beam{opacity:1;animation:lampglow 3.4s ease-in-out infinite}
 .desk-scene{position:relative;width:100%;max-width:800px;height:clamp(280px,46vh,460px);min-height:230px;isolation:isolate}
-.desk-canvas{position:absolute;inset:0 0 38px;cursor:grab}
+.desk-canvas{position:absolute;inset:0 0 60px;cursor:grab}
 .desk-canvas:active{cursor:grabbing}
 .desk-canvas canvas{position:absolute;inset:0;display:block;max-width:100%}
 .desk-canvas .desk-fallback{position:absolute;inset:0;width:100%;height:100%;max-width:100%;object-fit:contain}
 .desk-canvas[data-ready] .desk-fallback{visibility:hidden}
+.desk-tease{position:absolute;bottom:0;inset-inline:8px;margin:0;min-height:60px;display:none;flex-direction:column;gap:4px;align-items:center;justify-content:center;text-align:center;font-size:12px;line-height:1.4;font-style:italic;color:var(--fg2);pointer-events:none}
+.desk-tease>svg{flex:none;color:var(--accent)}
+.desk-canvas[data-ready]:not([data-fallback]) + .desk-tease{display:flex}
+.desk-tease-touch{display:none}
+@media(pointer:coarse){.desk-tease-mouse{display:none}.desk-tease-touch{display:inline}}
 .desk-controls{position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;gap:6px;visibility:hidden}
 .desk-scene:has(.desk-canvas[data-ready]) .desk-controls{visibility:visible}
 .desk-controls button{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid transparent;border-radius:4px;background:transparent;color:var(--dim);cursor:pointer}
@@ -383,21 +388,23 @@ a{color:var(--accent);text-decoration:none}a:hover{color:var(--accent-hover)}
   .mkt-detail{grid-template-columns:1fr;max-width:min(76ch,100%);margin:0 auto}
 }
 .mkt-pdf{border-top:1px solid var(--line);padding-top:16px;margin-top:16px;position:relative}
-.mkt-pdf-toolbar{position:absolute;left:14px;right:14px;top:14px;z-index:3;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:0;padding:6px 10px;background:rgba(20,21,19,.78);border:1px solid var(--line2);border-radius:8px;backdrop-filter:blur(6px);box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.mkt-pdf-toolbar{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0;padding:6px;background:var(--panel);border:1px solid var(--line2);border-radius:8px}
 [data-theme="light"] .mkt-pdf-toolbar{background:rgba(233,230,217,.85)}
 .mkt-pdf-nav{display:flex;align-items:center;gap:8px}
-.mkt-pdf-toolbar .btn{padding:6px 10px;font-size:.76em}
+.mkt-pdf-toolbar .btn{padding:8px;min-width:44px;min-height:44px;font-size:.76em;display:inline-flex;align-items:center;justify-content:center}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .mkt-pdf-status{padding:24px 0;text-align:center;font-size:.86em}
-.mkt-pdf-pages{display:flex;flex-direction:column;align-items:center;gap:14px;max-height:min(72vh,860px);overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;padding:56px 14px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel,rgba(255,255,255,.02))}
+.mkt-pdf-pages{display:flex;flex-direction:column;align-items:center;gap:14px;max-height:min(72vh,860px);overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;padding:12px 4px;border:1px solid var(--line);border-radius:8px;background:var(--panel,rgba(255,255,255,.02));touch-action:pan-y pinch-zoom}
 .mkt-pdf-pages--row{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-start;max-height:min(78vh,920px);overflow-y:auto;overflow-x:hidden}
 .mkt-pdf-page{border:1px solid var(--line2);border-radius:6px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}
-.mkt-pdf.is-fullscreen{background:var(--bg);display:flex;flex-direction:column;padding:20px 24px;border-top:none;margin-top:0;height:100%}
+.pdf-reader-dialog{position:fixed;inset:0;width:100%;height:100%;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:var(--bg);color:var(--fg)}
+.pdf-reader-dialog::backdrop{background:var(--bg)}
+.mkt-pdf.is-fullscreen{background:var(--bg);display:flex;flex-direction:column;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));border-top:none;margin-top:0;height:100%;box-sizing:border-box}
 /* "safe center" keeps pages centered when they fit, but falls back to
    start-aligned once content is taller than the viewport — plain `center`
    clips the overflow symmetrically and the top half becomes unreachable
    by scrolling (scrollTop can't go negative). */
-.mkt-pdf.is-fullscreen .mkt-pdf-pages{flex:1;max-height:none;overflow:auto;justify-content:safe center;padding-top:64px;padding-bottom:24px}
+.mkt-pdf.is-fullscreen .mkt-pdf-pages{flex:1;min-height:0;max-height:none;overflow:auto;justify-content:safe center;padding-top:12px;padding-bottom:24px}
 @media(max-width:640px){
   .mkt-pdf-pages--row{flex-direction:column;align-items:center}
 }

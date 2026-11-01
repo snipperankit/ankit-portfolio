@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { PERSONA } from "../../../lib/content";
+import { portfolioReply } from "../../../lib/portfolio-reply";
 
 export const runtime = "nodejs";
 
@@ -23,11 +25,6 @@ function isChatMessage(value: unknown): value is ChatMessage {
   );
 }
 
-const FALLBACK_REPLY = {
-  en: "The assistant is unavailable right now. Email anand.ankit093@gmail.com or use contact.",
-  de: "Der Assistent ist gerade nicht verfügbar. Schreib an anand.ankit093@gmail.com oder nutze contact.",
-};
-
 export async function POST(req: NextRequest) {
   let body: unknown;
   try {
@@ -49,8 +46,6 @@ export async function POST(req: NextRequest) {
   if (language !== "en" && language !== "de") {
     return NextResponse.json({ error: "invalid language" }, { status: 400 });
   }
-  const fallback = FALLBACK_REPLY[language];
-
   if (typeof system !== "string" || system.length > MAX_SYSTEM_LENGTH) {
     return NextResponse.json(
       { error: "invalid system prompt" },
@@ -71,10 +66,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const latestQuestion =
+    messages.filter((message) => message.role === "user").at(-1)?.content ?? "";
+  const fallback = portfolioReply(latestQuestion, language);
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
   const apiToken = process.env.CLOUDFLARE_API_TOKEN;
   if (!accountId || !apiToken) {
-    // No backend configured — respond gracefully instead of erroring out.
     return NextResponse.json({ reply: fallback });
   }
   const model = process.env.CLOUDFLARE_AI_MODEL || DEFAULT_MODEL;
@@ -84,6 +81,7 @@ export async function POST(req: NextRequest) {
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${model}`,
       {
         method: "POST",
+        signal: AbortSignal.timeout(12000),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${apiToken}`,
@@ -92,7 +90,7 @@ export async function POST(req: NextRequest) {
           messages: [
             {
               role: "system",
-              content: `${system}\nRespond in ${language === "de" ? "German (informal du)" : "English"}. For scheduling, direct visitors to anand.ankit093@gmail.com.`,
+              content: `${PERSONA}\nRespond in ${language === "de" ? "German (informal du)" : "English"}. For scheduling, direct visitors to anand.ankit093@gmail.com.`,
             },
             ...messages,
           ],

@@ -51,9 +51,9 @@ function sceneConnection() {
 }
 
 function sceneLoadingMode() {
-  if (window.matchMedia("(max-width: 767px)").matches) return "mobile";
   const connection = sceneConnection();
-  return connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? "") ? "restricted" : "desktop";
+  if (connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? "")) return "restricted";
+  return window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop";
 }
 
 function subscribeSceneLoading(onChange: () => void) {
@@ -72,7 +72,7 @@ function DeferredDesk() {
   const mode = useSyncExternalStore(subscribeSceneLoading, sceneLoadingMode, () => "pending");
   const [enabled, setEnabled] = useState(false);
   useEffect(() => {
-    if (mode !== "desktop" || enabled) return;
+    if (mode === "pending" || mode === "restricted" || enabled) return;
     let idle: number | undefined;
     const timer = window.setTimeout(() => {
       if ("requestIdleCallback" in window) idle = window.requestIdleCallback(() => setEnabled(true), { timeout: 2500 });
@@ -83,7 +83,7 @@ function DeferredDesk() {
   return enabled ? <DeskScene /> : (
     <div className="desk-scene desk-poster">
       <Image src={deskPoster} alt={translate("Ankit's engineering desk")} fill loading="eager" sizes="(max-width: 767px) 100vw, 800px" />
-      {mode === "mobile" && <button className="btn ghost desk-load" data-track="scene_requested" onClick={() => setEnabled(true)}><Play size={16} aria-hidden="true" />{translate("Load 3D scene")}</button>}
+      {(mode === "mobile" || mode === "restricted") && <button className="btn ghost desk-load" data-track="scene_requested" onClick={() => setEnabled(true)}><Play size={16} aria-hidden="true" />{translate("Load 3D scene")}</button>}
     </div>
   );
 }

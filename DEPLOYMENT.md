@@ -82,7 +82,10 @@ token; do not put that token in GitHub files or client-side variables.
 ## 3. Optional AI chat
 
 Without AI credentials the portfolio and public CV downloads work; chat returns
-a friendly email fallback. This is the simplest initial deployment.
+clearly labelled portfolio facts for common questions about SmartReco, projects,
+skills, experience and contact. Unsupported questions are directed to email.
+This deterministic fallback is not live AI and does not infer answers. It is also
+used when the provider fails, returns an empty reply or exceeds the 12-second timeout.
 
 To enable AI later, use the Worker's **Settings > Variables & Secrets**:
 
@@ -98,6 +101,12 @@ Workers Builds variables. Apply the runtime changes and deploy a new version
 as prompted. Before enabling public AI, configure suitable abuse protection
 and review Workers AI quotas/pricing. The chat endpoint currently has no
 distributed rate limiter; a secret token alone does not prevent quota abuse.
+
+If the chat says "live AI is offline", verify both required settings on the
+Worker itself, not just under Builds. Local development uses `.env.local`;
+those values are not automatically uploaded to Cloudflare. Do not share token
+values in chat, screenshots or source control. The deployment token managed by
+Workers Builds is separate from the runtime Workers AI token.
 
 ## 4. Protected resource PDFs (optional)
 
