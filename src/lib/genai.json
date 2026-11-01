@@ -1,0 +1,296 @@
+[
+  {
+    "id": "chunking",
+    "title": "Chunking",
+    "description": "Document ingestion, chunking strategies, and quality metrics.",
+    "slides": [
+      {
+        "title": "Overview",
+        "src": "/genai/chunking/00-overview.png"
+      },
+      {
+        "title": "Running example",
+        "src": "/genai/chunking/00b-running-example.png"
+      },
+      {
+        "title": "Ingestion pipeline",
+        "src": "/genai/chunking/01a-ingestion-pipeline.png"
+      },
+      {
+        "title": "Generation enrichment",
+        "src": "/genai/chunking/01b-generation-enrichment.png"
+      },
+      {
+        "title": "Chunking strategies",
+        "src": "/genai/chunking/02a-chunking-strategies.png"
+      },
+      {
+        "title": "Default recipe",
+        "src": "/genai/chunking/02b-default-recipe.png"
+      },
+      {
+        "title": "Detection process",
+        "src": "/genai/chunking/03a-detection-process.png"
+      },
+      {
+        "title": "Bad chunking symptoms",
+        "src": "/genai/chunking/03b-bad-chunking-symptoms.png"
+      },
+      {
+        "title": "When to switch",
+        "src": "/genai/chunking/03c-when-to-switch.png"
+      },
+      {
+        "title": "Chunking metrics",
+        "src": "/genai/chunking/04a-chunking-metrics.png"
+      },
+      {
+        "title": "Metrics in practice",
+        "src": "/genai/chunking/04b-metrics-in-practice.png"
+      }
+    ]
+  },
+  {
+    "id": "embeddings",
+    "title": "Embeddings & search",
+    "description": "Vector representations, index selection, and retrieval evaluation.",
+    "slides": [
+      {
+        "title": "Overview",
+        "src": "/genai/embeddings/01-overview.png"
+      },
+      {
+        "title": "What is an embedding",
+        "src": "/genai/embeddings/02-what-is-an-embedding-1.png"
+      },
+      {
+        "title": "Embedding creation steps",
+        "src": "/genai/embeddings/03-embedding-creation-steps.png"
+      },
+      {
+        "title": "Retrieval core idea",
+        "src": "/genai/embeddings/04-retrieval-core-idea.png"
+      },
+      {
+        "title": "Exact vs approximate",
+        "src": "/genai/embeddings/05-exact-vs-approximate.png"
+      },
+      {
+        "title": "Flat index",
+        "src": "/genai/embeddings/06-flat-index.png"
+      },
+      {
+        "title": "HNSW index",
+        "src": "/genai/embeddings/07-hnsw-index.png"
+      },
+      {
+        "title": "HNSW when to use",
+        "src": "/genai/embeddings/08-hnsw-when-to-use.png"
+      },
+      {
+        "title": "IVF index",
+        "src": "/genai/embeddings/09-ivf-index.png"
+      },
+      {
+        "title": "IVF cons and when",
+        "src": "/genai/embeddings/10-ivf-cons-and-when.png"
+      },
+      {
+        "title": "IVF PQ index",
+        "src": "/genai/embeddings/11-ivf-pq-index.png"
+      },
+      {
+        "title": "IVF PQ when to use",
+        "src": "/genai/embeddings/12-ivf-pq-when-to-use.png"
+      },
+      {
+        "title": "Decision guide",
+        "src": "/genai/embeddings/13-decision-guide.png"
+      },
+      {
+        "title": "Evaluation steps 1 2",
+        "src": "/genai/embeddings/14-evaluation-steps-1-2.png"
+      },
+      {
+        "title": "Evaluation step 3 metrics",
+        "src": "/genai/embeddings/15-evaluation-step-3-metrics-1.png"
+      },
+      {
+        "title": "Evaluation step 4 tradeoffs",
+        "src": "/genai/embeddings/16-evaluation-step-4-tradeoffs.png"
+      },
+      {
+        "title": "End to end flow ingestion indexing",
+        "src": "/genai/embeddings/17-end-to-end-flow-ingestion-indexing.png"
+      },
+      {
+        "title": "End to end flow query evaluation",
+        "src": "/genai/embeddings/18-end-to-end-flow-query-evaluation.png"
+      }
+    ]
+  },
+  {
+    "id": "mcp",
+    "title": "MCP fundamentals",
+    "description": "Tool calls, resource access, protocols, and authorization.",
+    "slides": [
+      {
+        "title": "Overview",
+        "src": "/genai/mcp/00-overview.png"
+      },
+      {
+        "title": "What is MCP",
+        "src": "/genai/mcp/01-what-is-mcp.png"
+      },
+      {
+        "title": "Tool call flow",
+        "src": "/genai/mcp/02-tool-call-flow.png"
+      },
+      {
+        "title": "RBAC",
+        "src": "/genai/mcp/03-rbac.png"
+      },
+      {
+        "title": "Resource checks",
+        "src": "/genai/mcp/04-resource-checks.png"
+      },
+      {
+        "title": "Protocols",
+        "src": "/genai/mcp/05-protocols.png"
+      },
+      {
+        "title": "Libraries",
+        "src": "/genai/mcp/06-libraries.png"
+      },
+      {
+        "title": "Choosing",
+        "src": "/genai/mcp/07-choosing.png"
+      }
+    ]
+  },
+  {
+    "id": "mcp-production",
+    "title": "MCP in production",
+    "description": "Zero trust, sandboxing, infrastructure, and observability.",
+    "slides": [
+      {
+        "title": "Overview",
+        "src": "/genai/mcp-production/00-overview.png"
+      },
+      {
+        "title": "GITHUB pipeline",
+        "src": "/genai/mcp-production/01-github-pipeline.png"
+      },
+      {
+        "title": "Tool manifest",
+        "src": "/genai/mcp-production/02-tool-manifest.png"
+      },
+      {
+        "title": "Zero trust",
+        "src": "/genai/mcp-production/03-zero-trust.png"
+      },
+      {
+        "title": "RBAC",
+        "src": "/genai/mcp-production/04-rbac.png"
+      },
+      {
+        "title": "Sandbox",
+        "src": "/genai/mcp-production/05-sandbox.png"
+      },
+      {
+        "title": "External proxy",
+        "src": "/genai/mcp-production/06-external-proxy.png"
+      },
+      {
+        "title": "Azure infra",
+        "src": "/genai/mcp-production/07-azure-infra.png"
+      },
+      {
+        "title": "Observability",
+        "src": "/genai/mcp-production/08-observability.png"
+      },
+      {
+        "title": "Control flow",
+        "src": "/genai/mcp-production/09-control-flow.png"
+      }
+    ]
+  },
+  {
+    "id": "rag",
+    "title": "RAG systems",
+    "description": "Retrieval quality, generation, safety, and system design.",
+    "slides": [
+      {
+        "title": "Scenario",
+        "src": "/genai/rag/00-scenario.png"
+      },
+      {
+        "title": "Generation core quality",
+        "src": "/genai/rag/01a-generation-core-quality.png"
+      },
+      {
+        "title": "Generation safety trust",
+        "src": "/genai/rag/01b-generation-safety-trust.png"
+      },
+      {
+        "title": "Retrieval context",
+        "src": "/genai/rag/02a-retrieval-context.png"
+      },
+      {
+        "title": "Retrieval ranked math",
+        "src": "/genai/rag/02b-retrieval-ranked-math.png"
+      },
+      {
+        "title": "System",
+        "src": "/genai/rag/03-system.png"
+      },
+      {
+        "title": "Groupings",
+        "src": "/genai/rag/04-groupings.png"
+      }
+    ]
+  },
+  {
+    "id": "transformers",
+    "title": "Transformers",
+    "description": "From tokenisation and attention to output probabilities.",
+    "slides": [
+      {
+        "title": "Overview",
+        "src": "/genai/transformers/00-overview.png"
+      },
+      {
+        "title": "Tokenisation",
+        "src": "/genai/transformers/01-tokenisation.png"
+      },
+      {
+        "title": "Embedding",
+        "src": "/genai/transformers/02-embedding.png"
+      },
+      {
+        "title": "Positional",
+        "src": "/genai/transformers/03-positional.png"
+      },
+      {
+        "title": "Self attention",
+        "src": "/genai/transformers/04-self-attention.png"
+      },
+      {
+        "title": "Multihead",
+        "src": "/genai/transformers/05-multihead.png"
+      },
+      {
+        "title": "Addnorm",
+        "src": "/genai/transformers/06-addnorm.png"
+      },
+      {
+        "title": "FFN",
+        "src": "/genai/transformers/07-ffn.png"
+      },
+      {
+        "title": "Output softmax",
+        "src": "/genai/transformers/08-output-softmax.png"
+      }
+    ]
+  }
+]
